@@ -9,8 +9,6 @@ var spotify = require("spotify");
 var command = process.argv;
 
 var movieName = "";
-
-
 ///TWITTER SEARCH
 //
 // function tweetie(user) {
@@ -35,11 +33,11 @@ var movieName = "";
 //   });
 
 
-  ///MOVIE SEARCH ON OMDB
+///MOVIE SEARCH ON OMDB
 
-  //3 because node is 0, filename is 1, command is 2 and title is 3
-  for (var i = 2; i < command.length; i++) {
-    if (i > 2 && i < command.length) {
+//3 because node is 0, filename is 1, command is 2 and title is 3
+for (var i = 2; i < command.length; i++) {
+  if (i > 2 && i < command.length) {
     movieName = movieName + "+" + command[i];
   } else {
     movieName += command[i];
@@ -56,10 +54,26 @@ request(queryUrl, function(error, response, body) {
   // If the request is successful
   if (!error && response.statusCode === 200) {
 
-    // Parse the body of the site and recover just the imdbRating
-    // (Note: The syntax below for parsing isn't obvious. Just spend a few moments dissecting it).
+    // Parse the body of the site and return useful information in JSON
+    console.log("Movie Title: " + JSON.parse(body).Title);
     console.log("Release Year: " + JSON.parse(body).Year);
+    console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
+    console.log("Plot: " + JSON.parse(body).Plot);
+    console.log("Actors: " + JSON.parse(body).Actors);
   }
 });
 
 ///SPOTIFY
+
+spotify.search({
+  type: 'track',
+  query: 'dancing in the moonlight'
+}, function(err, data) {
+  if (err) {
+    console.log('Error occurred: ' + err);
+    return;
+  }
+  console.log("The song you chose is: " + data);
+  return;
+
+});
