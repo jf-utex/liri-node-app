@@ -3,7 +3,7 @@ var fs = require("fs");
 var request = require("request");
 var twitter = require("twitter");
 var keys = require("./keys.js");
-var spotify = require("spotify");
+var spotify = require("node-spotify-api");
 var inquirer = require("inquirer");
 
 var movieName = "";
@@ -35,36 +35,34 @@ inquirer.prompt([{
 });
 
 ///TWITTER SEARCH///
-//
+// //
 // function myTweets() {
-// inquirer.prompt([{
-//   type: "input",
-//   message: "Please enter a Twitter user.",
-//   name: "twitUser"
+//   inquirer.prompt([{
+//     type: "input",
+//     message: "Please enter a Twitter user.",
+//     name: "twitUser"
 //
-// }]).then(function(input){
-// var keys = require("./keys.js");
-//   consumer_key: 'keys.twitterKeys.consumer_key',
-//   consumer_secret: 'keys.twitterKeys.consumer_secret',
-//   access_token_key: 'keys.twitterKeys.access_token_key',
-//   access_token_secret: 'keys.twitterKeys.access_token_secret';
+//   }]).then(function(input) {
+//       var keys = require("./keys.js");
+//         consumer_key: '<jSvelds2jHfrfWFF5xQ7r9pcY>',
+//         consumer_secret: '<koaXrv3YKg7y7l2BdGg8eaXYoTyXuoA9GjXznQUc9ZOmsw2TV4>',
+//         access_token_key: '<840568585433026563-f0GVKV1mVH7RAdIqve9AhWByprwvNjG>',
+//         access_token_secret: '<6RacfbhZBmg4uuLBqm0tHANhVUtEWlf6bUToG2I3YtP8q>';
 //
-// }
-//
-//   });
-//
-//   var params = {
-//     screen_name: 'nodejs'
-//   };
-//   client.get('statuses/user_timeline', params, function(error, tweets, response) {
-//     if (!error) {
-//       for (i = 0; i < tweets.length; i++) {
-//         console.log(i);
-//       }
-//       console.log(tweets);
 //     }
+//
+// var params = {
+//   screen_name: 'nodejs'
+// };
+// client.get('statuses/user_timeline', params, function(error, tweets, response) {
+//   if (!error) {
+//     for (i = 0; i < tweets.length; i++) {
+//       console.log(i);
+//     }
+//     console.log(tweets);
+//   }
+// });
 //   });
-
 
 ///MOVIE SEARCH ON OMDB
 function movieThis() {
@@ -104,41 +102,59 @@ function movieThis() {
 
 ///SPOTIFY
 
-
-
 function spotifyThisSong() {
   inquirer.prompt([{
-    type: "input",
-    message: "Great! Type in a song name:",
-    name: "songName"
-  }]).then(function(input) {
-    var spotify = require("spotify");
-    var songName = input.songName;
-    if (songName == "") {
-      songName = "The Sign";
-    }
-    var params = {
-      type: "track",
-      query: songName,
-      limit: "20"
-    };
-    var dataArr = data.split(",");
-    spotify.search(params, function(err, data) {
-      if (!err) {
-        console.log(
-          "Information for songs named " + songName);
-        for (var i = 0; i < data.tracks.items.length; i++) {
-          console.log(
-            "Artist: " + data.tracks.items[i].artists[0].name +
-            "Album Name: " + data.tracks.items[i].album.name +
-            "Song Name: " + data.tracks.items[i].name +
-            "Preview link for song: " + data.tracks.items[i].preview_url
-          );
-        }
-      } else {
-        console.log(err);
-
-      }
+      type: "input",
+      message: "Type in a song name:",
+      name: "songName"
+      id: "2e8bc61d36f642fda45edbf936ed4c29",
+      secret: "615f876bdc7f4704b41d1398e553e83d"
     });
+
+    spotify.search({
+      type: "input",
+      query: 'songName'
+    }, function(err, data) {
+      if (err) {
+        return console.log('Error occurred: ' + err);
+      }
+
+      console.log(data);
+    });
+
   });
+
+// search: function({ type: "track", query: "songName", limit: 20 }, callback);
+
+var queryUrl = "https://api.spotify.com/v1/search" + songName;
+var dataArr = data.split(",");
+spotify.search(params, function(err, data) {
+if (!err) {
+  console.log(
+    "Information for songs named " + songName);
+  for (var i = 0; i < data.tracks.items.length; i++) {
+    console.log(
+      "Artist: " + data.tracks.items[i].artists[0].name +
+      "Album Name: " + data.tracks.items[i].album.name +
+      "Song Name: " + data.tracks.items[i].name +
+      "Preview link for song: " + data.tracks.items[i].preview_url
+    );
+  }
+} else {
+  console.log(err);
+
 }
+});
+});
+}
+
+
+pseudocode
+
+//spotify and twitter integration with existing OMDB
+// for spottify, grab title of song provided: return data including artist, album, song name and preview link
+//default to "the sign"
+// for twitter, return last 20 tweets from user
+// define do-what-it-says
+//use fs node package - will take what is inside random txt file and should run ...
+//return spotify for "I want it that way"
