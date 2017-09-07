@@ -35,34 +35,34 @@ inquirer.prompt([{
 });
 
 ///TWITTER SEARCH///
-// //
-// function myTweets() {
-//   inquirer.prompt([{
-//     type: "input",
-//     message: "Please enter a Twitter user.",
-//     name: "twitUser"
 //
-//   }]).then(function(input) {
-//       var keys = require("./keys.js");
-//         consumer_key: '<jSvelds2jHfrfWFF5xQ7r9pcY>',
-//         consumer_secret: '<koaXrv3YKg7y7l2BdGg8eaXYoTyXuoA9GjXznQUc9ZOmsw2TV4>',
-//         access_token_key: '<840568585433026563-f0GVKV1mVH7RAdIqve9AhWByprwvNjG>',
-//         access_token_secret: '<6RacfbhZBmg4uuLBqm0tHANhVUtEWlf6bUToG2I3YtP8q>';
-//
-//     }
-//
-// var params = {
-//   screen_name: 'nodejs'
-// };
-// client.get('statuses/user_timeline', params, function(error, tweets, response) {
-//   if (!error) {
-//     for (i = 0; i < tweets.length; i++) {
-//       console.log(i);
-//     }
-//     console.log(tweets);
-//   }
-// });
-//   });
+function myTweets() {
+  inquirer.prompt([{
+    type: "input",
+    message: "Please enter a Twitter user.",
+    name: "twitUser"
+
+  }]).then(function(input) {
+      var keys = require("./keys.js");
+        consumer_key: 'jSvelds2jHfrfWFF5xQ7r9pcY',
+        consumer_secret: 'koaXrv3YKg7y7l2BdGg8eaXYoTyXuoA9GjXznQUc9ZOmsw2TV4',
+        access_token_key: '840568585433026563-f0GVKV1mVH7RAdIqve9AhWByprwvNjG',
+        access_token_secret: '6RacfbhZBmg4uuLBqm0tHANhVUtEWlf6bUToG2I3YtP8q';
+
+    }
+
+var params = {
+  screen_name: 'nodejs'
+};
+client.get('statuses/user_timeline', params, function(error, tweets, response) {
+  if (!error) {
+    for (i = 0; i < tweets.length; i++) {
+      console.log(i);
+    }
+    console.log(tweets);
+  }
+});
+  });
 
 ///MOVIE SEARCH ON OMDB
 function movieThis() {
