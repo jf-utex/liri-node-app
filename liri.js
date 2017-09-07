@@ -102,54 +102,54 @@ function movieThis() {
 
 ///SPOTIFY
 
-function spotifyThisSong() {
-  inquirer.prompt([{
-      type: "input",
-      message: "Type in a song name:",
-      name: "songName"
-      id: "2e8bc61d36f642fda45edbf936ed4c29",
-      secret: "615f876bdc7f4704b41d1398e553e83d"
-    });
-
-    spotify.search({
-      type: "input",
-      query: 'songName'
-    }, function(err, data) {
-      if (err) {
-        return console.log('Error occurred: ' + err);
-      }
-
-      console.log(data);
-    });
-
-  });
+// function spotifyThisSong() {
+//   inquirer.prompt([{
+//       type: "input",
+//       message: "Type in a song name:",
+//       name: "songName"
+//       id: "2e8bc61d36f642fda45edbf936ed4c29",
+//       secret: "615f876bdc7f4704b41d1398e553e83d"
+//     });
+//
+//     spotify.search({
+//       type: "input",
+//       query: 'songName'
+//     }, function(err, data) {
+//       if (err) {
+//         return console.log('Error occurred: ' + err);
+//       }
+//
+//       console.log(data);
+//     });
+//
+//   });
 
 // search: function({ type: "track", query: "songName", limit: 20 }, callback);
+//
+// var queryUrl = "https://api.spotify.com/v1/search" + songName;
+// var dataArr = data.split(",");
+// spotify.search(params, function(err, data) {
+// if (!err) {
+//   console.log(
+//     "Information for songs named " + songName);
+//   for (var i = 0; i < data.tracks.items.length; i++) {
+//     console.log(
+//       "Artist: " + data.tracks.items[i].artists[0].name +
+//       "Album Name: " + data.tracks.items[i].album.name +
+//       "Song Name: " + data.tracks.items[i].name +
+//       "Preview link for song: " + data.tracks.items[i].preview_url
+//     );
+//   }
+// } else {
+//   console.log(err);
+//
+// }
+// });
+// });
 
-var queryUrl = "https://api.spotify.com/v1/search" + songName;
-var dataArr = data.split(",");
-spotify.search(params, function(err, data) {
-if (!err) {
-  console.log(
-    "Information for songs named " + songName);
-  for (var i = 0; i < data.tracks.items.length; i++) {
-    console.log(
-      "Artist: " + data.tracks.items[i].artists[0].name +
-      "Album Name: " + data.tracks.items[i].album.name +
-      "Song Name: " + data.tracks.items[i].name +
-      "Preview link for song: " + data.tracks.items[i].preview_url
-    );
-  }
-} else {
-  console.log(err);
-
-}
-});
-});
-}
 
 
-pseudocode
+// pseudocode
 
 //spotify and twitter integration with existing OMDB
 // for spottify, grab title of song provided: return data including artist, album, song name and preview link
@@ -158,3 +158,5 @@ pseudocode
 // define do-what-it-says
 //use fs node package - will take what is inside random txt file and should run ...
 //return spotify for "I want it that way"
+
+//issue is difficulty integrating all three API's
