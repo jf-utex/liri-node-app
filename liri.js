@@ -20,7 +20,7 @@ inquirer.prompt([{
 
 ]).then(function(choice) {
   if (choice.choice == "Twitter - use this to get the most recent 20 tweets") {
-    myTweets();
+    twitter();
 
   } else if (choice.choice == "Spotify - Search Spotify for your song") {
     spotifyThisSong();
@@ -36,38 +36,40 @@ inquirer.prompt([{
 
 ///TWITTER SEARCH///
 //
-
-// var getMyTweets = function() {
-//     var client = new Twitter(keys.twitterKeys);
-//
-//     var params = {
-//       screen_name: "jf2862"
-//     };
-//     client.get('statuses/user_timeline', params, function(error, tweets, response) {
-//       if (!error) {
-//         for (i = 0; i < tweets.length; i++) {
-//           console.log(i);
-//         }
-//
-//         inquirer.prompt([{
-//               type: "input",
-//               message: "Please enter a Twitter user.",
-//               name: "twitUser"
-//               // console.log(tweets);
-//             }
-//           }
-//         });
-//     });
-
-
-// ///SPOTIFY
-
-function spotifyThisSong() {
+function twitter() {
   inquirer.prompt([{
     type: "input",
-    message: "Type in a song name:",
-    name: "songName"
+    message: "Please enter a Twitter user.",
+    name: "twitUser"
   }]).then(function(input) {
+    var request = require("request");
+    var twitUser = input.twitUser;
+    if (twitUser == "") {
+      twitUser = "jf2862";
+    }
+    var client = new twitter({
+      consumer_key: process.env.TWITTER_CONSUMER_KEY,
+      consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+      bearer_token: process.env.TWITTER_BEARER_TOKEN
+    });
+  });
+  client.post('statuses/update', {
+    status: 'I Love Twitter'
+  }, function(error, tweet, response) {
+    if (error) throw error;
+    console.log(tweet); // Tweet body.
+    console.log(response); // Raw response object.
+  });
+};
+
+  // ///SPOTIFY
+
+  function spotifyThisSong() {
+    inquirer.prompt([{
+      type: "input",
+      message: "Type in a song name:",
+      name: "songName"
+    }]).then(function(input) {
       var request = require("request");
       var songName = input.songName;
       if (songName == "") {
@@ -105,14 +107,6 @@ function spotifyThisSong() {
     });
   };
 
-  // var queryUrl = "https://api.spotify.com/v1/search" + songName;
-  // var dataArr = data.split(",");
-  // spotify.search(params, function(err, data) {
-
-
-
-
-
   ///  WORKING  MOVIE SEARCH ON OMDB
   function movieThis() {
     inquirer.prompt([{
@@ -148,10 +142,6 @@ function spotifyThisSong() {
       });
     });
   };
-
-
-
-
   // pseudocode
 
   //spotify and twitter integration with existing OMDB
