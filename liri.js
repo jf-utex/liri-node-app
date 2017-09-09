@@ -8,9 +8,9 @@ var inquirer = require("inquirer");
 
 var movieName = "";
 
-///GET USER INPUT///
+///WORKING     GET USER INPUT///
 
-// var inquirer = require('inquirer');
+var inquirer = require('inquirer');
 inquirer.prompt([{
     type: "list",
     message: "Welcome to LIRI!. Choose an option below to get started.",
@@ -37,129 +37,122 @@ inquirer.prompt([{
 ///TWITTER SEARCH///
 //
 
-var getMyTweets = function() {
-    var client = new Twitter(keys.twitterKeys);
+// var getMyTweets = function() {
+//     var client = new Twitter(keys.twitterKeys);
+//
+//     var params = {
+//       screen_name: "jf2862"
+//     };
+//     client.get('statuses/user_timeline', params, function(error, tweets, response) {
+//       if (!error) {
+//         for (i = 0; i < tweets.length; i++) {
+//           console.log(i);
+//         }
+//
+//         inquirer.prompt([{
+//               type: "input",
+//               message: "Please enter a Twitter user.",
+//               name: "twitUser"
+//               // console.log(tweets);
+//             }
+//           }
+//         });
+//     });
 
+
+// ///SPOTIFY
+
+function spotifyThisSong() {
+  inquirer.prompt({
+    type: "input",
+    message: "Type in a song name:",
+    name: "songName"
+  });
+  var getSpotify = function() {
+    var spotify = new Spotify(keys.spotifyKeys);
     var params = {
-      screen_name: "jf2862"
-    };
-    client.get('statuses/user_timeline', params, function(error, tweets, response) {
-      if (!error) {
-        for (i = 0; i < tweets.length; i++) {
-          console.log(i);
-        }
+      type: "input",
+      query: songName,
+      limit: 20
+    }
 
-        inquirer.prompt([{
-              type: "input",
-              message: "Please enter a Twitter user.",
-              name: "twitUser"
-              console.log(tweets);
-            }
-          }
-        });
+    spotify.search(params, function(err, data) {
+      if (err) {
+        return console.log('Error occurred: ' + err);
+        return;
+
+      } else {
+
+        for (var i = 0; i < data.tracks.items.length; i++) {
+          console.log(
+            "Artist: " + data.tracks.items[i].artists[0].name +
+            "Album Name: " + data.tracks.items[i].album.name +
+            "Song Name: " + data.tracks.items[i].name +
+            "Preview link for song: " + data.tracks.items[i].preview_url
+          );
+        };
+      };
+
     });
+  };
+};
+
+
+// var queryUrl = "https://api.spotify.com/v1/search" + songName;
+// var dataArr = data.split(",");
+// spotify.search(params, function(err, data) {
 
 
 
-    ///MOVIE SEARCH ON OMDB
-    function movieThis() {
-      inquirer.prompt([{
-        type: "input",
-        message: "Please provide a movie title.",
-        name: "movieName"
-      }]).then(function(input) {
-        var request = require("request");
-        var movieName = input.movieName;
-        if (movieName == "") {
-          movieName = "Mr. Nobody";
-        }
 
-        var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short=true&apikey=40e9cece";
-        // console.log(queryUrl);
 
-        request(queryUrl, function(error, response, body) {
+///  WORKING  MOVIE SEARCH ON OMDB
+function movieThis() {
+  inquirer.prompt([{
+    type: "input",
+    message: "Please provide a movie title.",
+    name: "movieName"
+  }]).then(function(input) {
+    var request = require("request");
+    var movieName = input.movieName;
+    if (movieName == "") {
+      movieName = "Mr. Nobody";
+    }
 
-          // If the request is successful
-          if (!error && response.statusCode === 200) {
+    var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short=true&apikey=40e9cece";
+    // console.log(queryUrl);
 
-            // Parse the body of the site and return useful information in JSON
-            console.log("Movie Title: " + JSON.parse(body).Title);
-            console.log("Release Year: " + JSON.parse(body).Year);
-            console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
-            console.log("Plot: " + JSON.parse(body).Plot);
-            console.log("Actors: " + JSON.parse(body).Actors);
-            console.log("Country: " + JSON.parse(body).Country);
-            // console.log("Rotten Tomatoes Rating: " + JSON.parse(body).tomatoRating);
-            console.log("Language: " + JSON.parse(body).Language);
+    request(queryUrl, function(error, response, body) {
 
-          }
-        });
-      });
-    };
+      // If the request is successful
+      if (!error && response.statusCode === 200) {
 
-    ///SPOTIFY
-    var spotify = new Spotify({
-      id: "2e8bc61d36f642fda45edbf936ed4c29",
-      secret: "615f876bdc7f4704b41d1398e553e83d",
+        // Parse the body of the site and return useful information in JSON
+        console.log("Movie Title: " + JSON.parse(body).Title);
+        console.log("Release Year: " + JSON.parse(body).Year);
+        console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
+        console.log("Plot: " + JSON.parse(body).Plot);
+        console.log("Actors: " + JSON.parse(body).Actors);
+        console.log("Country: " + JSON.parse(body).Country);
+        // console.log("Rotten Tomatoes Rating: " + JSON.parse(body).tomatoRating);
+        console.log("Language: " + JSON.parse(body).Language);
 
-    })
-
-    function spotifyThisSong() {
-      inquirer.prompt([{
-          type: "input",
-          message: "Type in a song name:",
-          name: "songName"
-        });
-
-        spotify.search({
-            type: "input",
-            query: songName
-          },
-          function(err, data) {
-            if (err) {
-              return console.log('Error occurred: ' + err);
-              return;
-            }
-            var songs = data.input.items;
-            for (var i = 0; i < data.tracks.items.length; i++) {
-              console.log(
-                "Artist: " + data.tracks.items[i].artists[0].name +
-                "Album Name: " + data.tracks.items[i].album.name +
-                "Song Name: " + data.tracks.items[i].name +
-                "Preview link for song: " + data.tracks.items[i].preview_url
-              );
-              console.log(data);
-            });
-
-        });
-
-      // search: function({ type: "track", query: "songName", limit: 20 }, callback);
-      //
-      // var queryUrl = "https://api.spotify.com/v1/search" + songName;
-      // var dataArr = data.split(",");
-      // spotify.search(params, function(err, data) {
-      // if (!err) {
-      //   console.log(
-      //     "Information for songs named " + songName);
-      //
-      //   }
-      // } else {
-      //   console.log(err);
-      //
-      // }
-      // });
-      // });
+      }
+    });
+  });
+};
 
 
 
-      // pseudocode
 
-      //spotify and twitter integration with existing OMDB
-      // for spottify, grab title of song provided: return data including artist, album, song name and preview link
-      //default to "the sign"
-      // for twitter, return last 20 tweets from user
-      // define do-what-it-says
-      //use fs node package - will take what is inside random txt file and should run ...
-      //return spotify for "I want it that way"
+// pseudocode
 
-      //issue is difficulty integrating all three API's
+//spotify and twitter integration with existing OMDB
+// for spottify, grab title of song provided: return data including artist, album, song name and preview link
+//default to "the sign"
+// for twitter, return last 20 tweets from user
+// define do-what-it-says
+//use fs node package - will take what is inside random txt file and should run ...
+//return spotify for "I want it that way"
+
+//issue is difficulty integrating all three API's
