@@ -3,12 +3,12 @@ var fs = require("fs");
 var request = require("request");
 var Twitter = require("twitter");
 var keys = require("./keys.js");
-var spotify = require("spotify");
+var Spotify = require("node-spotify-api");
 var inquirer = require("inquirer");
 
 var movieName = "";
 
-///WORKING     GET USER INPUT///
+///WORKING TO GET USER INPUT///
 
 var inquirer = require('inquirer');
 inquirer.prompt([{
@@ -28,9 +28,6 @@ inquirer.prompt([{
   } else if (choice.choice == "OMDB - Retrieve info about your movie") {
     movieThis();
 
-    // } else {
-    //   doWhatItSays();
-    // }
   }
 });
 
@@ -53,18 +50,16 @@ function twitter() {
     }
   })
 };
-// var request = require("request");
-// var movieName = input.movieName;
-// if (movieName == "") {
-//   movieName = "Mr. Nobody";
+
 
 function spotifyThisSong() {
+  var client = new Spotify(keys.spotifyKeys);
   inquirer.prompt([{
     type: "input",
     message: "Type in a song name:",
     name: "songName"
   }]).then(function(input) {
-    spotify.search({
+    client.search({
       type: 'track',
       query: 'songName'
     }, function(err, data) {
@@ -73,40 +68,14 @@ function spotifyThisSong() {
         return;
       }
       console.log(data);
-      //     }
-
+  
       var getArtist = function(artist){
       return artist.name;
     };
-
-      //     var getSpotify = function() {
-      //       if (songName === undefined) {
-      //         songName = "What's my name again?";
-      //       }
     })
   })
 };
-//       var params = {
-//         type: "input",
-//         query: songName,
-//         limit: 20
-//
-//         } else {
-//
-//           for (var i = 0; i < data.tracks.items.length; i++) {
-//             console.log(
-//               "Artist: " + data.tracks.items[i].artists[0].name +
-//               "Album Name: " + data.tracks.items[i].album.name +
-//               "Song Name: " + data.tracks.items[i].name +
-//               "Preview link for song: " + data.tracks.items[i].preview_url
-//             );
-//           };
-//         };
-//
-//       });
-//     };
-//   });
-// };
+
 
 ///  WORKING  MOVIE SEARCH ON OMDB
 function movieThis() {
@@ -143,14 +112,3 @@ function movieThis() {
     });
   });
 };
-// pseudocode
-
-//spotify and twitter integration with existing OMDB
-// for spottify, grab title of song provided: return data including artist, album, song name and preview link
-//default to "the sign"
-// for twitter, return last 20 tweets from user
-// define do-what-it-says
-//use fs node package - will take what is inside random txt file and should run ...
-//return spotify for "I want it that way"
-
-//issue is difficulty integrating all three API's

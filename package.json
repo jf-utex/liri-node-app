@@ -4,10 +4,9 @@
   "description": "Using 3 API's - integrate responses based on information passed to the terminal through the inquirer NPM.",
   "main": "keys.js",
   "dependencies": {
-    "inquirer": "^3.2.3",
+    "inquirer": "^3.3.0",
     "node-spotify-api": "^1.0.7",
-    "omdb": "^0.8.0",
-    "request": "^2.82.0",
+    "request": "^2.83.0",
     "spotify": "^0.3.0",
     "twitter": "^1.7.1"
   },
